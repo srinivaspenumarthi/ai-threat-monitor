@@ -1,15 +1,33 @@
 # Threat Monitor
 
-Threat Monitor is a web-based cybersecurity tool that watches web server access logs, scores suspicious requests, and presents the results in a live investigation dashboard. It is built for small websites and student projects that want practical threat visibility without enterprise tooling.
+Threat Monitor is a web-based cybersecurity tool that monitors web server access logs, detects suspicious requests, and presents the results in a live investigation dashboard. It is designed for small websites, student projects, and lightweight deployments that want practical threat visibility without enterprise security tooling.
+
+## Why It Matters
+
+Small websites still receive suspicious traffic such as login abuse, XSS payloads, path traversal attempts, and encoded injection requests. Most of them have logs, but not a clear way to turn those logs into security insight. Threat Monitor closes that gap by turning raw nginx access logs into a live threat investigation workflow.
 
 ## What It Does
 
 - Monitors nginx access logs in near real time
-- Detects suspicious requests with hybrid rules + ML scoring
+- Detects suspicious requests with hybrid rules + machine learning scoring
 - Stores medium and high severity threats for investigation
 - Streams live alerts to the frontend over WebSocket
 - Shows severity, model scores, recommended actions, and a response playbook
 - Supports retraining the detection models from observed events plus synthetic data
+
+## Key Features
+
+- Live dashboard with severity distribution, top source IPs, and attacked paths
+- Searchable threat investigation table with filter controls
+- Threat detail panel with payload visibility, detector scores, explanations, and response guidance
+- Hybrid detection engine combining rules with retrainable ML models
+- Local protected-site demo workflow using nginx access logs
+
+## Screens To Expect
+
+- `Dashboard` for live detection overview
+- `Threats` for investigation and event review
+- `Models` for active model status, metrics, and retraining
 
 ## Demo Flow
 
@@ -26,19 +44,33 @@ Threat Monitor is a web-based cybersecurity tool that watches web server access 
 - `data/local-nginx/` local nginx demo state and log files
 - `scripts/local_site_demo.sh` helper script to run a local protected site demo
 
-## Local Setup
+## Quick Start
 
-### 1. Frontend
+### Requirements
+
+- Python 3.14+
+- Node.js 20+
+- npm
+- nginx
+- `uv` installed at `/opt/homebrew/bin/uv` or available on your `PATH`
+
+### 1. Install frontend dependencies
 
 ```bash
 cd frontend
 npm install
-npm run dev
 ```
 
-The frontend usually runs at `http://localhost:5173`.
+### 2. Start the protected sample site
 
-### 2. Backend
+```bash
+cd ..
+./scripts/local_site_demo.sh start /absolute/path/to/site 8088
+```
+
+This prints the local site URL and the nginx access log path. Keep that access log path for the backend step below.
+
+### 3. Start the backend
 
 Use SQLite for the simplest local demo:
 
@@ -54,7 +86,52 @@ UV_CACHE_DIR=/private/tmp/uv-cache \
 
 The backend usually runs at `http://localhost:8000`.
 
-### 3. Protected Site Demo
+### 4. Start the frontend
+
+```bash
+cd ../frontend
+npm run dev
+```
+
+The frontend usually runs at `http://localhost:5173`.
+
+### 5. Send test traffic
+
+```bash
+curl "http://localhost:8088/login?id=%27%20OR%20%271%27%3D%271"
+curl "http://localhost:8088/search?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
+```
+
+Then open the frontend and inspect the newest threat entries.
+
+## Local Setup Details
+
+### Frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+The frontend usually runs at `http://localhost:5173`.
+
+### Backend
+
+Use SQLite for the simplest local demo:
+
+```bash
+cd backend
+export PATH="/opt/homebrew/bin:$PATH"
+DEBUG=false \
+DATABASE_URL="sqlite+aiosqlite:///./threat-monitor.db" \
+NGINX_LOG_PATH="/absolute/path/to/access.log" \
+UV_CACHE_DIR=/private/tmp/uv-cache \
+/opt/homebrew/bin/uv run --no-sync python -m app
+```
+
+The backend usually runs at `http://localhost:8000`.
+
+### Protected Site Demo
 
 Host any static site locally with nginx:
 
@@ -69,7 +146,17 @@ This prints the local site URL and access log path. Use that access log path as 
 ```bash
 curl "http://localhost:8088/login?id=%27%20OR%20%271%27%3D%271"
 curl "http://localhost:8088/search?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
+curl "http://localhost:8088/view?page=..%2F..%2Fsecret.txt"
 ```
+
+## How Detection Works
+
+1. nginx writes incoming requests to an access log.
+2. Threat Monitor tails the log in near real time.
+3. Requests are parsed into structured events.
+4. Rule-based checks and ML models score the request.
+5. Medium and high severity events are stored and streamed to the frontend.
+6. The UI explains why the request was flagged and suggests what to do next.
 
 ## Technologies Used
 
@@ -78,8 +165,8 @@ curl "http://localhost:8088/search?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
 - Frontend: React, TypeScript, Vite, Zustand, TanStack Query, Sass
 - Demo Hosting: nginx
 
-## Submission Notes
+## Repository Notes
 
-- Live website URL: optional for this project because the strongest demo is the protected local nginx site feeding real logs into the detector
-- Public repo URL: add after publishing
-- Team information: add before submission
+- The strongest demo flow is a local nginx-hosted site feeding real access logs into the detector.
+- The frontend, backend, and demo helper script are all included in this repository.
+- Submission-specific text is available in `SUBMISSION.md`.
