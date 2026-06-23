@@ -1,9 +1,3 @@
-# ©AngelaMos | 2026
-# .gitignore
-
-# dev docs
-.threat-monitor/
-
 # Environment
 .env
 .env.local
@@ -67,6 +61,8 @@ data/models/
 data/geoip/
 data/sample-logs/*.log
 !data/sample-logs/sample-access.log
+data/local-nginx/logs/
+backend/data/models/.tailer_pos.json
 
 # MLflow
 mlruns/
