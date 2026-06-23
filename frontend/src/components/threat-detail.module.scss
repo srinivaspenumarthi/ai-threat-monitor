@@ -1,0 +1,233 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/fonts' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(2 8 10 / 72%);
+  backdrop-filter: blur(6px);
+  z-index: $z-modal;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel {
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 3%), transparent),
+    rgb(8 24 29 / 96%);
+  border-left: 1px solid rgb(255 255 255 / 8%);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-5 $space-6;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+  position: sticky;
+  top: 0;
+  background: rgb(8 24 29 / 94%);
+  backdrop-filter: blur(16px);
+  z-index: 1;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  margin: 0;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 12px;
+  color: $text-light;
+  cursor: pointer;
+  transition: background $duration-fast $ease-out;
+
+  &:hover {
+    background: rgb(255 255 255 / 7%);
+  }
+}
+
+.body {
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-4;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(255 255 255 / 6%);
+}
+
+.sectionTitle {
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-semibold;
+  color: $severity-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-3;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.fieldLabel {
+  font-size: $font-size-2xs;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.fieldValue {
+  font-size: $font-size-sm;
+  color: $text-default;
+}
+
+.mono {
+  font-size: $font-size-xs;
+  color: $text-light;
+  font-family: $font-mono;
+  word-break: break-all;
+}
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.scoreRow {
+  display: grid;
+  grid-template-columns: 40px 1fr 50px;
+  gap: $space-3;
+  align-items: center;
+}
+
+.scoreLabel {
+  font-size: $font-size-xs;
+  color: $text-lighter;
+  text-transform: uppercase;
+  font-weight: $font-weight-medium;
+}
+
+.scoreBar {
+  height: 8px;
+  background: rgb(255 255 255 / 7%);
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+  background: linear-gradient(90deg, $severity-medium, $accent);
+  border-radius: $radius-full;
+  transition: width $duration-slow $ease-out;
+}
+
+.scoreValue {
+  font-size: $font-size-xs;
+  color: $text-light;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.rule {
+  padding: $space-1 $space-2-5;
+  background: rgb(25 170 196 / 14%);
+  color: $accent;
+  border-radius: $radius-full;
+  font-size: $font-size-2xs;
+  font-family: $font-mono;
+}
+
+.explanations,
+.playbook {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.explanationItem,
+.actionCard,
+.playbookStep {
+  border-radius: 14px;
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(255 255 255 / 6%);
+}
+
+.explanationItem {
+  padding: $space-3;
+  color: $text-light;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+}
+
+.actionCard {
+  padding: $space-4;
+  color: $text-default;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  background: linear-gradient(135deg, rgb(240 165 58 / 10%), rgb(25 170 196 / 10%));
+}
+
+.playbookStep {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: $space-3;
+  align-items: start;
+  padding: $space-3;
+}
+
+.playbookIndex {
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-full;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(240 165 58 / 16%);
+  color: $severity-medium;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.playbookText {
+  color: $text-light;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+}

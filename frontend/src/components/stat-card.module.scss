@@ -1,0 +1,36 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/fonts' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-5;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 3%), transparent),
+    rgb(7 24 29 / 76%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: $radius-xl;
+  box-shadow: 0 18px 45px rgb(0 0 0 / 16%);
+}
+
+.value {
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  line-height: $line-height-none;
+  letter-spacing: $tracking-tight;
+}
+
+.label {
+  font-size: $font-size-xs;
+  color: $text-lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.sublabel {
+  font-size: $font-size-sm;
+  color: $text-light;
+  font-family: $font-mono;
+}

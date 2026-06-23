@@ -1,0 +1,111 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/fonts' as *;
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 3%), transparent),
+    rgb(7 24 29 / 76%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgb(0 0 0 / 18%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+}
+
+.title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0;
+}
+
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-full;
+  box-shadow: 0 0 0 6px rgb(255 255 255 / 3%);
+}
+
+.connected { background: $severity-low; }
+.disconnected { background: $severity-high; }
+
+.list {
+  overflow-y: auto;
+  max-height: 400px;
+  padding: $space-2;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 80px 130px 52px 1fr auto 60px;
+  gap: $space-3;
+  align-items: center;
+  padding: $space-3 $space-4;
+  border-radius: 14px;
+  font-size: $font-size-xs;
+
+  &:not(:last-child) {
+    margin-bottom: $space-2;
+  }
+
+  &:nth-child(odd) {
+    background: rgb(255 255 255 / 3%);
+  }
+}
+
+.time {
+  color: $text-lighter;
+  font-variant-numeric: tabular-nums;
+}
+
+.ip {
+  color: $text-light;
+  font-family: $font-mono;
+}
+
+.path {
+  color: $text-light;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score {
+  color: $text-default;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.method {
+  font-family: $font-mono;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-2xs;
+  letter-spacing: $tracking-wide;
+  color: $text-lighter;
+}
+
+.methodGet { color: $method-get; }
+.methodPost { color: $method-post; }
+.methodPut { color: $method-put; }
+.methodDelete { color: $method-delete; }
+.methodPatch { color: $method-patch; }
+.methodHead { color: $method-head; }
+.methodOptions { color: $method-options; }
+
+.empty {
+  padding: $space-10;
+  text-align: center;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}

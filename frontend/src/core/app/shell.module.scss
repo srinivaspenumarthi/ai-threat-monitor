@@ -1,0 +1,349 @@
+@use '@/styles' as *;
+
+$sidebar-width: 272px;
+$sidebar-collapsed-width: 88px;
+$header-height: 76px;
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.sidebar {
+  position: fixed;
+  inset: $space-4 auto $space-4 $space-4;
+  width: $sidebar-width;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 4%), transparent),
+    linear-gradient(160deg, rgb(25 170 196 / 14%), transparent 44%),
+    $bg-surface-100;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: $radius-xl;
+  box-shadow: 0 22px 60px rgb(0 0 0 / 30%);
+  backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  z-index: $z-fixed;
+  @include transition-fast;
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+  }
+
+  @include breakpoint-down('sm') {
+    inset: $space-3 auto $space-3 $space-3;
+    transform: translateX(calc(-100% - #{$space-4}));
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    &.collapsed {
+      width: $sidebar-width;
+    }
+  }
+}
+
+.sidebarHeader {
+  min-height: 92px;
+  padding: $space-5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+
+  .sidebar.collapsed & {
+    padding: $space-5 $space-4;
+    justify-content: center;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+
+  .sidebar.collapsed & {
+    justify-content: center;
+  }
+}
+
+.logoMark {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgb(240 165 58 / 24%), rgb(25 170 196 / 26%)),
+    $bg-surface-200;
+  border: 1px solid rgb(255 255 255 / 8%);
+  color: $text-default;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+
+  .sidebar.collapsed & {
+    display: none;
+  }
+}
+
+.logo {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  letter-spacing: $tracking-wide;
+}
+
+.nav {
+  flex: 1;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  min-height: 52px;
+  padding: $space-3 $space-3-5;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-light;
+  @include transition-fast;
+
+  @include hover {
+    background: rgb(255 255 255 / 3%);
+    border-color: rgb(255 255 255 / 6%);
+    color: $text-default;
+    transform: translateX(2px);
+  }
+
+  &.active {
+    background:
+      linear-gradient(135deg, rgb(240 165 58 / 14%), rgb(25 170 196 / 16%)),
+      $bg-selection;
+    border-color: rgb(240 165 58 / 24%);
+    color: $text-default;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+  }
+
+  .sidebar.collapsed & {
+    justify-content: center;
+    padding-inline: $space-2;
+  }
+}
+
+.navIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: $accent;
+
+  .navItem.active & {
+    color: $severity-medium;
+  }
+}
+
+.navLabel {
+  @include transition-fast;
+
+  .sidebar.collapsed & {
+    display: none;
+  }
+}
+
+.collapseBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  color: $text-light;
+  border: 1px solid rgb(255 255 255 / 8%);
+  background: rgb(255 255 255 / 3%);
+  @include flex-center;
+  @include transition-fast;
+
+  @include hover {
+    background: rgb(255 255 255 / 7%);
+    color: $text-default;
+  }
+
+  @include breakpoint-down('sm') {
+    display: none;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(4 11 14 / 60%);
+  backdrop-filter: blur(3px);
+  z-index: calc($z-fixed - 1);
+  display: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  @include breakpoint-down('sm') {
+    display: block;
+  }
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: calc(#{$sidebar-width} + #{$space-6});
+  min-width: 0;
+  @include transition-fast;
+
+  &.collapsed {
+    margin-left: calc(#{$sidebar-collapsed-width} + #{$space-6});
+  }
+
+  @include breakpoint-down('sm') {
+    margin-left: 0;
+
+    &.collapsed {
+      margin-left: 0;
+    }
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  min-height: $header-height;
+  padding: $space-5 $space-6 $space-4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: $z-sticky;
+  backdrop-filter: blur(8px);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.menuBtn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: $text-light;
+  border: 1px solid rgb(255 255 255 / 7%);
+  background: rgb(255 255 255 / 4%);
+  align-items: center;
+  justify-content: center;
+  @include transition-fast;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @include hover {
+    background: rgb(255 255 255 / 8%);
+    color: $text-default;
+  }
+
+  @media (width <= 479px) {
+    display: flex;
+  }
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.kicker {
+  font-size: $font-size-2xs;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $severity-medium;
+}
+
+.pageTitle {
+  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  font-weight: $font-weight-semibold;
+  color: $text-default;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: $tracking-tight;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.livePill {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-3;
+  border-radius: $radius-full;
+  background: rgb(10 28 33 / 66%);
+  border: 1px solid rgb(25 170 196 / 20%);
+  color: $text-light;
+  font-size: $font-size-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+
+  svg {
+    color: $severity-low;
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 0 $space-6 $space-6;
+
+  @include breakpoint-down('sm') {
+    padding: 0 $space-3 $space-4;
+  }
+}
+
+.error,
+.loading {
+  min-height: 320px;
+  border-radius: $radius-xl;
+  border: 1px solid rgb(255 255 255 / 8%);
+  background: rgb(8 22 27 / 72%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: $space-8;
+  color: $text-light;
+}
+
+.error h2,
+.loading {
+  margin: 0;
+}
+
+.error pre {
+  margin: $space-4 0 0;
+  white-space: pre-wrap;
+  color: $text-lighter;
+}

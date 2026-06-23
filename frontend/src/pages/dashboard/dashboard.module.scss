@@ -1,0 +1,255 @@
+@use '@/styles' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.loading {
+  @include flex-center;
+  min-height: 320px;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.hero,
+.severitySection,
+.rankedList,
+.wsError {
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: $radius-xl;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 3%), transparent),
+    rgb(7 24 29 / 76%);
+  box-shadow: 0 20px 50px rgb(0 0 0 / 18%);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: $space-5;
+  align-items: end;
+  padding: $space-6;
+
+  @include breakpoint-down('md') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eyebrow,
+.sectionEyebrow {
+  display: inline-block;
+  margin-bottom: $space-3;
+  font-size: $font-size-2xs;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: $severity-medium;
+}
+
+.heroTitle,
+.sectionTitle {
+  margin: 0;
+  color: $text-default;
+  letter-spacing: $tracking-tight;
+}
+
+.heroTitle {
+  font-size: clamp(1.75rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.heroText {
+  max-width: 54rem;
+  margin: $space-3 0 0;
+  color: $text-light;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+}
+
+.heroBadge {
+  min-width: 220px;
+  padding: $space-4;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgb(25 170 196 / 14%), rgb(240 165 58 / 14%));
+  border: 1px solid rgb(255 255 255 / 8%);
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  align-self: stretch;
+  justify-content: center;
+}
+
+.heroBadgeLabel {
+  font-size: $font-size-2xs;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: $text-lighter;
+}
+
+.heroBadge strong {
+  font-size: $font-size-xl;
+  color: $text-default;
+  text-transform: capitalize;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-4;
+
+  @include breakpoint-down('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint-down('sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.severitySection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  padding: $space-6;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: $font-size-xl;
+}
+
+.severityBar {
+  display: flex;
+  height: 16px;
+  border-radius: $radius-full;
+  overflow: hidden;
+  background: rgb(255 255 255 / 6%);
+}
+
+.severityBarEmpty {
+  height: 16px;
+  border-radius: $radius-full;
+  background: rgb(255 255 255 / 6%);
+  @include flex-center;
+  font-size: $font-size-2xs;
+  color: $text-muted;
+}
+
+.severityHigh,
+.severityMedium,
+.severityLow {
+  transition: width $duration-slow $ease-out;
+}
+
+.severityHigh { background: linear-gradient(90deg, hsl(3, 72%, 52%), $severity-high); }
+.severityMedium { background: linear-gradient(90deg, hsl(34, 87%, 54%), $severity-medium); }
+.severityLow { background: linear-gradient(90deg, hsl(180, 54%, 44%), $severity-low); }
+
+.legend {
+  display: flex;
+  gap: $space-5;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $font-size-xs;
+  color: $text-lighter;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-full;
+}
+
+.dotHigh { background: $severity-high; }
+.dotMedium { background: $severity-medium; }
+.dotLow { background: $severity-low; }
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: $space-4;
+
+  @include breakpoint-down('lg') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lists {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.rankedList {
+  padding: $space-5;
+}
+
+.rankedTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-default;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 $space-4;
+}
+
+.rankedItems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.rankedItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 3%);
+}
+
+.rankedLabel {
+  color: $text-light;
+  font-family: $font-mono;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rankedCount {
+  min-width: 44px;
+  text-align: center;
+  padding: $space-1 $space-2;
+  border-radius: $radius-full;
+  background: rgb(240 165 58 / 14%);
+  color: $severity-medium;
+  font-variant-numeric: tabular-nums;
+}
+
+.emptyText {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.wsError {
+  padding: $space-4 $space-5;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 2%), transparent),
+    $severity-high-bg;
+  color: $severity-high;
+}
